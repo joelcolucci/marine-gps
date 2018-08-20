@@ -1,12 +1,16 @@
 import React from 'react';
 
+import GPSPosition from '../components/GPSPosition';
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     let initialState = {
       position: {
-        latLng: {},
+        latitude: null,
+        longitude: null,
         heading: 0,
         speed: 0,
         timestamp: 0,
@@ -66,7 +70,7 @@ class App extends React.Component {
 
   render() {
     let { latitude, longitude, speed, heading, timestamp, accuracy } = this.state.position;
-
+    let { isPositionFetching } = this.state;
     return (
       <div>
         <header>
@@ -76,11 +80,10 @@ class App extends React.Component {
         <p>{heading}</p>
         <h2>GPS Speed</h2>
         <p>{speed}</p>
-        <h2>GPS Position</h2>
-        <div>
-          <p>{latitude}</p>
-          <p>{longitude}</p>
-        </div>
+        <GPSPosition
+          latitude={latitude}
+          longitude={longitude}
+          isFetching={isPositionFetching} />
         <h2>Timestamp</h2>
         <p>{timestamp}</p>
         <h2>Accuracy</h2>
