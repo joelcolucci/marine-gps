@@ -14,12 +14,12 @@ class App extends React.Component {
         latitude: null,
         longitude: null,
         heading: null,
-        speed: 0,
+        speed: null,
         timestamp: 0,
         accuracy: 0
       },
       isPositionFetching: false,
-      isSupportedDevice: false
+      isSupportedDevice: true
     };
     this.state = initialState;
 
@@ -43,7 +43,7 @@ class App extends React.Component {
       let { timestamp } = position;
       let { latitude, longitude, heading, speed, accuracy } = position.coords;
 
-      let isSupportedDevice = (heading === null && speed === null);
+      let isSupportedDevice = !(heading === null && speed === null);
 
       let stateUpdate = {
         position: {
@@ -72,7 +72,7 @@ class App extends React.Component {
 
   render() {
     let { latitude, longitude, speed, heading, timestamp, accuracy } = this.state.position;
-    let { isPositionFetching } = this.state;
+    let { isPositionFetching, isSupportedDevice } = this.state;
     return (
       <div>
         <header>
@@ -80,10 +80,12 @@ class App extends React.Component {
         </header>
         <GPSHeading
           heading={heading}
-          isFetching={isPositionFetching} />
+          isFetching={isPositionFetching}
+          isSupported={isSupportedDevice} />
         <GPSSpeed
           speed={speed}
-          isFetching={isPositionFetching} />
+          isFetching={isPositionFetching}
+          isSupported={isSupportedDevice} />
         <GPSPosition
           latitude={latitude}
           longitude={longitude}

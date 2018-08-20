@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 
 function GPSHeading(props) {
   let headingString;
-  if (props.heading) {
-    headingString = `${props.heading}\u00B0`;
+
+  if (props.isSupported) {
+    if (props.heading) {
+      headingString = `${props.heading}\u00B0`;
+    } else {
+      headingString = `---\u00b0`;
+    }
   } else {
-    headingString = `---\u00b0`;
+    headingString = `---\u00b0 - Not supported by device`;
   }
 
   return (
@@ -23,7 +28,8 @@ function GPSHeading(props) {
 
 GPSHeading.propTypes = {
   heading: PropTypes.number,
-  isFetching: PropTypes.bool
+  isFetching: PropTypes.bool,
+  isSupported: PropTypes.bool
 };
 
 export default GPSHeading;

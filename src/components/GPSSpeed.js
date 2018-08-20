@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 
 function GPSSpeed(props) {
   let speedString;
-  if (props.speed) {
-    speedString = `${props.speed} m/s`;
+
+  if (props.isSupported) {
+    if (props.speed) {
+      speedString = `${props.speed} m/s`;
+    } else {
+      speedString = `0 m/s`;
+    }
   } else {
-    speedString = `0 m/s`;
+    speedString = `0 m/s - Not supported by device`;
   }
 
   return (
@@ -23,7 +28,8 @@ function GPSSpeed(props) {
 
 GPSSpeed.propTypes = {
   speed: PropTypes.number,
-  isFetching: PropTypes.book
+  isFetching: PropTypes.bool,
+  isSupported: PropTypes.bool
 };
 
 export default GPSSpeed;
