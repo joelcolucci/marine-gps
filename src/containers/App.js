@@ -24,6 +24,7 @@ class App extends React.Component {
     this.state = initialState;
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleGetCurrentPositionSuccess = this.handleGetCurrentPositionSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -39,27 +40,44 @@ class App extends React.Component {
       isPositionFetching: true
     });
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      let { timestamp } = position;
-      let { latitude, longitude, heading, speed, accuracy } = position.coords;
+    let geolocationOptions = {
+      enableHighAccuracy: true, 
+      maximumAge        : 30000, 
+      timeout           : 27000
+    };
 
-      let isSupportedDevice = !(heading === null && speed === null);
+    navigator
+      .geolocation
+      .getCurrentPosition(
+        this.handleGetCurrentPositionSuccess,
+        this.handleGetCurrentPositionFailure,
+        geolocationOptions);
+  }
 
-      let stateUpdate = {
-        position: {
-          latitude: latitude,
-          longitude: longitude,
-          heading: heading,
-          speed: speed,
-          timestamp: timestamp,
-          accuracy: accuracy
-        },
-        isPositionFetching: false,
-        isSupportedDevice: isSupportedDevice
-      };
+  handleGetCurrentPositionSuccess(position) {
+    let { timestamp } = position;
+    let { latitude, longitude, heading, speed, accuracy } = position.coords;
 
-      this.setState(stateUpdate);
-    });
+    let isSupportedDevice = !(heading === null && speed === null);
+
+    let stateUpdate = {
+      position: {
+        latitude: latitude,
+        longitude: longitude,
+        heading: heading,
+        speed: speed,
+        timestamp: timestamp,
+        accuracy: accuracy
+      },
+      isPositionFetching: false,
+      isSupportedDevice: isSupportedDevice
+    };
+
+    this.setState(stateUpdate);
+  }
+
+  handleGetCurrentPositionFailure(error) {
+    console.warn(`ERROR(${error.code}): ${error.message}`);
   }
 
   isGeolocationSupported() {
