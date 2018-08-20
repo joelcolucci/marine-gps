@@ -21,6 +21,7 @@ function GPSPosition(props) {
       </header>
       <div>{latitudeString}</div>
       <div>{longitudeString}</div>
+      <div>Coordinate accuracy: {`+/- ${props.accuracy} meters`}</div>
     </div>
   );
 }
@@ -28,6 +29,7 @@ function GPSPosition(props) {
 GPSPosition.propTypes = {
   latitude: PropTypes.number,
   longitude: PropTypes.number,
+  accuracy: PropTypes.number,
   isFetching: PropTypes.bool
 };
 

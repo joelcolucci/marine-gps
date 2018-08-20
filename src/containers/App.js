@@ -2,7 +2,6 @@ import React from 'react';
 
 import GPSPosition from '../components/GPSPosition';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -83,11 +82,10 @@ class App extends React.Component {
         <GPSPosition
           latitude={latitude}
           longitude={longitude}
+          accuracy={accuracy}
           isFetching={isPositionFetching} />
         <h2>Timestamp</h2>
         <p>{timestamp}</p>
-        <h2>Accuracy</h2>
-        <p>{accuracy}</p>
         <button
           onClick={this.handleClick}
           disabled={this.state.isPositionFetching}>Refresh position</button>
