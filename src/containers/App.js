@@ -1,5 +1,6 @@
 import React from 'react';
 
+import GPSHeading from '../components/GPSHeading';
 import GPSPosition from '../components/GPSPosition';
 import GPSTimestamp from '../components/GPSTimestamp';
 
@@ -11,7 +12,7 @@ class App extends React.Component {
       position: {
         latitude: null,
         longitude: null,
-        heading: 0,
+        heading: null,
         speed: 0,
         timestamp: 0,
         accuracy: 0
@@ -76,8 +77,9 @@ class App extends React.Component {
         <header>
           <h1>GPS</h1>
         </header>
-        <h2>GPS Heading - HDG (COG - Course over ground)</h2>
-        <p>{heading}</p>
+        <GPSHeading
+          heading={heading}
+          isFetching={isPositionFetching} />
         <h2>GPS Speed</h2>
         <p>{speed}</p>
         <GPSPosition
