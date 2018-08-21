@@ -19,39 +19,21 @@ class App extends React.Component {
         accuracy: 0
       },
       isPositionFetching: false,
-      isSupportedDevice: true
+      isSupportedDevice: true,
+      isGPSEnabled: false
     };
     this.state = initialState;
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleGetCurrentPositionSuccess = this.handleGetCurrentPositionSuccess.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.isGeolocationSupported()) {
-      this.fetchPosition();
-    } else {
-      console.log('Geolocation is not supported');
-    }
-  }
-
-  fetchPosition() {
-    this.setState({
-      isPositionFetching: true
-    });
-
-    let geolocationOptions = {
+    this.geolocationOptions = {
       enableHighAccuracy: true, 
-      maximumAge        : 30000, 
+      maximumAge        : 0, 
       timeout           : 27000
     };
+    this.watchId = null;
 
-    navigator
-      .geolocation
-      .getCurrentPosition(
-        this.handleGetCurrentPositionSuccess,
-        this.handleGetCurrentPositionFailure,
-        geolocationOptions);
+    this.handleGPSEnableClick = this.handleGPSEnableClick.bind(this);
+    this.handleGPSDisableClick = this.handleGPSDisableClick.bind(this);
+    this.handleGetCurrentPositionSuccess = this.handleGetCurrentPositionSuccess.bind(this);
   }
 
   handleGetCurrentPositionSuccess(position) {
@@ -84,8 +66,17 @@ class App extends React.Component {
     return ('geolocation' in navigator);
   }
 
-  handleClick(event) {
-    this.fetchPosition();
+  handleGPSEnableClick(event) {
+    this.setState({isGPSEnabled: true});
+    this.watchId = navigator.geolocation.watchPosition(
+      this.handleGetCurrentPositionSuccess,
+      this.handleGetCurrentPositionFailure,
+      this.geolocationOptions);
+  }
+
+  handleGPSDisableClick(event) {
+    this.setState({isGPSEnabled: false});
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   render() {
@@ -112,8 +103,11 @@ class App extends React.Component {
         <GPSTimestamp
           timestamp={timestamp} />
         <button
-          onClick={this.handleClick}
-          disabled={this.state.isPositionFetching}>Refresh position</button>
+          onClick={this.handleGPSEnableClick}
+          disabled={this.state.isGPSEnabled}>Enable GPS</button>
+        <button
+          onClick={this.handleGPSDisableClick}
+          disabled={!this.state.isGPSEnabled}>Disable GPS</button>
       </div>
     );
   }
