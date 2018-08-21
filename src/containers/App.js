@@ -1,9 +1,14 @@
 import React from 'react';
 
+import Button from '../components/Button';
 import GPSHeading from '../components/GPSHeading';
 import GPSPosition from '../components/GPSPosition';
 import GPSSpeed from '../components/GPSSpeed';
 import GPSTimestamp from '../components/GPSTimestamp';
+import Page from '../components/Page';
+import PageHeading from '../components/PageHeading';
+import Section from '../components/Section';
+import SectionHeading from '../components/SectionHeading';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,9 +30,9 @@ class App extends React.Component {
     this.state = initialState;
 
     this.geolocationOptions = {
-      enableHighAccuracy: true, 
-      maximumAge        : 0, 
-      timeout           : 27000
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 27000
     };
     this.watchId = null;
 
@@ -67,7 +72,7 @@ class App extends React.Component {
   }
 
   handleGPSEnableClick(event) {
-    this.setState({isGPSEnabled: true});
+    this.setState({ isGPSEnabled: true });
     this.watchId = navigator.geolocation.watchPosition(
       this.handleGetCurrentPositionSuccess,
       this.handleGetCurrentPositionFailure,
@@ -75,7 +80,7 @@ class App extends React.Component {
   }
 
   handleGPSDisableClick(event) {
-    this.setState({isGPSEnabled: false});
+    this.setState({ isGPSEnabled: false });
     navigator.geolocation.clearWatch(this.watchId);
   }
 
@@ -83,32 +88,52 @@ class App extends React.Component {
     let { latitude, longitude, speed, heading, timestamp, accuracy } = this.state.position;
     let { isPositionFetching, isSupportedDevice } = this.state;
     return (
-      <div>
-        <header>
-          <h1>GPS</h1>
-        </header>
-        <GPSHeading
-          heading={heading}
-          isFetching={isPositionFetching}
-          isSupported={isSupportedDevice} />
-        <GPSSpeed
-          speed={speed}
-          isFetching={isPositionFetching}
-          isSupported={isSupportedDevice} />
-        <GPSPosition
-          latitude={latitude}
-          longitude={longitude}
-          accuracy={accuracy}
-          isFetching={isPositionFetching} />
-        <GPSTimestamp
-          timestamp={timestamp} />
-        <button
-          onClick={this.handleGPSEnableClick}
-          disabled={this.state.isGPSEnabled}>Enable GPS</button>
-        <button
-          onClick={this.handleGPSDisableClick}
-          disabled={!this.state.isGPSEnabled}>Disable GPS</button>
-      </div>
+      <Page>
+        <PageHeading text="Marine GPS" />
+
+        <Section>
+          <SectionHeading text="GPS Heading" />
+          <GPSHeading
+            heading={heading}
+            isFetching={isPositionFetching}
+            isSupported={isSupportedDevice} />
+        </Section>
+
+        <Section>
+          <SectionHeading text="GPS Speed" />
+          <GPSSpeed
+            speed={speed}
+            isFetching={isPositionFetching}
+            isSupported={isSupportedDevice} />
+        </Section>
+
+        <Section>
+          <SectionHeading text="GPS Position" />
+          <GPSPosition
+            latitude={latitude}
+            longitude={longitude}
+            accuracy={accuracy}
+            isFetching={isPositionFetching} />
+        </Section>
+
+        <Section>
+          <SectionHeading text="GPS Timestamp" />
+          <GPSTimestamp
+            timestamp={timestamp} />
+        </Section>
+
+        <Section>
+          <Button
+            text="Enable"
+            onClick={this.handleGPSEnableClick}
+            disabled={this.state.isGPSEnabled} />
+          <Button
+            text="Pause"
+            onClick={this.handleGPSDisableClick}
+            disabled={!this.state.isGPSEnabled} />
+        </Section>
+
+      </Page>
     );
   }
 }

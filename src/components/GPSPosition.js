@@ -16,9 +16,6 @@ function GPSPosition(props) {
   
   return (
     <div className={props.isFetching ? 'loading' : ''}>
-      <header>
-        <h2>GPS Position</h2>
-      </header>
       <div>{latitudeString}</div>
       <div>{longitudeString}</div>
       <div>Coordinate accuracy: {`+/- ${props.accuracy} meters`}</div>

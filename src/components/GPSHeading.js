@@ -16,9 +16,6 @@ function GPSHeading(props) {
 
   return (
     <div className={props.isFetching ? 'loading' : ''}>
-      <header>
-        <h2>GPS Heading</h2>
-      </header>
       <div>
         {headingString}
       </div>

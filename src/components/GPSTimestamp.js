@@ -12,9 +12,6 @@ function GPSTimestamp(props) {
 
   return (
     <div className={props.isFetching ? 'loading' : ''}>
-      <header>
-        <h2>GPS Timestamp</h2>
-      </header>
       <div>
         {timestampString}
       </div>

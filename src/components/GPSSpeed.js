@@ -16,9 +16,6 @@ function GPSSpeed(props) {
 
   return (
     <div className={props.isFetching ? 'loading' : ''}>
-      <header>
-        <h2>GPS Speed</h2>
-      </header>
       <div>
         {speedString}
       </div>
