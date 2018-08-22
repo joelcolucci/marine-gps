@@ -98,7 +98,7 @@ class App extends React.Component {
             heading={heading}
             isFetching={isPositionFetching} />
           {!isSupportedDevice && (
-            <FootNote text="*Not supported by device" />
+            <FootNote text="Not supported by device" />
           )}
         </Section>
 
@@ -108,7 +108,7 @@ class App extends React.Component {
             speed={speed}
             isFetching={isPositionFetching} />
           {!isSupportedDevice && (
-            <FootNote text="*Not supported by device" />
+            <FootNote text="Not supported by device" />
           )}
         </Section>
 
