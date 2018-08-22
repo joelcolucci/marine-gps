@@ -1,24 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Coordinate } from 'geolocation-coordinate';
+import FootNote from './FootNote';
+import Latitude from './Latitude';
+import Longitude from './Longitude';
 
 function GPSPosition(props) {
-  let latitudeString;
-  let longitudeString;
-  if (props.latitude === null && props.longitude === null) {
-    latitudeString = '--.---\u00B0';
-    longitudeString = '--.---\u00B0';
-  } else {
-    latitudeString = new Coordinate(props.latitude, 'latitude').toString();
-    longitudeString = new Coordinate(props.longitude, 'longitude').toString();
-  }
-  
   return (
     <div className={props.isFetching ? 'loading' : ''}>
-      <div>{latitudeString}</div>
-      <div>{longitudeString}</div>
-      <div>Coordinate accuracy: {`+/- ${props.accuracy} meters`}</div>
+      <Latitude degrees={props.latitude} />
+      <Longitude degrees={props.longitude} />
+      <FootNote text={`+/- ${props.accuracy} meters`} />
     </div>
   );
 }

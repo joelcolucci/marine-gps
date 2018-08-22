@@ -7,12 +7,12 @@ function GPSTimestamp(props) {
     let timestampDate = new Date(props.timestamp);
     timestampString = `${timestampDate.toLocaleTimeString()} ${timestampDate.toLocaleDateString()}`;
   } else {
-    timestampString = '--:--:-- -- --/--/----';
+    timestampString = '\u2014:\u2014:\u2014   \u2014  \u2014/\u2014/\u2014';
   }
 
   return (
     <div className={props.isFetching ? 'loading' : ''}>
-      <div>
+      <div className="measurement">
         {timestampString}
       </div>
     </div>

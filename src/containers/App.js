@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Button from '../components/Button';
+import FootNote from '../components/FootNote';
 import GPSHeading from '../components/GPSHeading';
 import GPSPosition from '../components/GPSPosition';
 import GPSSpeed from '../components/GPSSpeed';
@@ -95,16 +96,20 @@ class App extends React.Component {
           <SectionHeading text="GPS Heading" />
           <GPSHeading
             heading={heading}
-            isFetching={isPositionFetching}
-            isSupported={isSupportedDevice} />
+            isFetching={isPositionFetching} />
+          {!isSupportedDevice && (
+            <FootNote text="*Not supported by device" />
+          )}
         </Section>
 
         <Section>
           <SectionHeading text="GPS Speed" />
           <GPSSpeed
             speed={speed}
-            isFetching={isPositionFetching}
-            isSupported={isSupportedDevice} />
+            isFetching={isPositionFetching} />
+          {!isSupportedDevice && (
+            <FootNote text="*Not supported by device" />
+          )}
         </Section>
 
         <Section>
