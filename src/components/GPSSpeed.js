@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function GPSSpeed(props) {
-  let speedString;
+  let speedInMetersSecond = props.speed;
+  let speedInKnots = speedInMetersSecond * 1.943842816446084;
 
+  let speedString;
   if (props.speed) {
-    speedString = `${props.speed} m/s`;
+    speedString = `${speedInKnots} Knots`;
   } else {
-    speedString = `\u2014 m/s`;
+    speedString = `\u2014 Knots`;
   }
 
   return (
