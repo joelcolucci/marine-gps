@@ -1,9 +1,6 @@
 import React from 'react';
 
-import { MdGpsOff, MdGpsFixed } from "react-icons/md";
-import ReactLoading from 'react-loading';
-
-import Button from '../components/Button';
+import ConnectButton from '../components/ConnectButton';
 import FootNote from '../components/FootNote';
 import GPSHeading from '../components/GPSHeading';
 import GPSPosition from '../components/GPSPosition';
@@ -13,6 +10,7 @@ import Page from '../components/Page';
 import PageHeading from '../components/PageHeading';
 import Section from '../components/Section';
 import SectionHeading from '../components/SectionHeading';
+import StatusIcon from '../components/StatusIcon';
 
 class App extends React.Component {
   constructor(props) {
@@ -104,7 +102,7 @@ class App extends React.Component {
 
   render() {
     let { latitude, longitude, speed, heading, timestamp, accuracy } = this.state.position;
-    let { isPositionFetching, isSupportedDevice } = this.state;
+    let { isPositionFetching, isGPSEnabled, isSupportedDevice } = this.state;
     return (
       <Page>
         <PageHeading text="Marine GPS" />
@@ -145,34 +143,15 @@ class App extends React.Component {
         </Section>
 
         <Section>
-          {this.state.isGPSEnabled ? (
-            <React.Fragment>
-              <Button
-                text="Pause"
-                onClick={this.handleGPSDisableClick}
-                disabled={!this.state.isGPSEnabled} />
-              <MdGpsFixed />
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {this.state.isPositionFetching ? (
-                <React.Fragment>
-                  <span>Connecting..</span>
-                  <ReactLoading type="spin" width={20} />
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Button
-                    text="Enable"
-                    onClick={this.handleGPSEnableClick}
-                    disabled={this.state.isPositionFetching} />
-                  <MdGpsOff />
-                </React.Fragment>
-              )}
-            </React.Fragment>
-          )}
+          <ConnectButton
+            isConnecting={isPositionFetching}
+            isConnected={isGPSEnabled}
+            onConnectClick={this.handleGPSEnableClick}
+            onDisconnectClick={this.handleGPSDisableClick} />
+          <StatusIcon 
+            isConnecting={isPositionFetching}
+            isConnected={isGPSEnabled} />
         </Section>
-
       </Page>
     );
   }
