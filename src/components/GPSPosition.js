@@ -10,7 +10,7 @@ function GPSPosition(props) {
     <div className={props.isFetching ? 'loading' : ''}>
       <Latitude degrees={props.latitude} />
       <Longitude degrees={props.longitude} />
-      <FootNote text={`+/- ${props.accuracy} meters`} />
+      <FootNote text={`+/- ${props.accuracy.toFixed(1)} meters`} />
     </div>
   );
 }
