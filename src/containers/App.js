@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { MdGpsOff, MdGpsFixed } from "react-icons/md";
+import ReactLoading from 'react-loading';
+
 import Button from '../components/Button';
 import FootNote from '../components/FootNote';
 import GPSHeading from '../components/GPSHeading';
@@ -40,9 +43,31 @@ class App extends React.Component {
     this.handleGPSEnableClick = this.handleGPSEnableClick.bind(this);
     this.handleGPSDisableClick = this.handleGPSDisableClick.bind(this);
     this.handleGetCurrentPositionSuccess = this.handleGetCurrentPositionSuccess.bind(this);
+    this.handleGetCurrentPositionFailure = this.handleGetCurrentPositionFailure.bind(this);
+  }
+
+  handleGPSEnableClick(event) {
+    this.setState({
+      isPositionFetching: true
+    });
+
+    this.watchId = navigator.geolocation.watchPosition(
+      this.handleGetCurrentPositionSuccess,
+      this.handleGetCurrentPositionFailure,
+      this.geolocationOptions);
+  }
+
+  handleGPSDisableClick(event) {
+    this.setState({ isGPSEnabled: false });
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   handleGetCurrentPositionSuccess(position) {
+    this.setState({
+      isPositionFetching: false,
+      isGPSEnabled: true
+    });
+
     let { timestamp } = position;
     let { latitude, longitude, heading, speed, accuracy } = position.coords;
 
@@ -65,24 +90,16 @@ class App extends React.Component {
   }
 
   handleGetCurrentPositionFailure(error) {
+    this.setState({
+      isPositionFetching: false,
+      isGPSEnabled: false
+    });
+
     console.warn(`ERROR(${error.code}): ${error.message}`);
   }
 
   isGeolocationSupported() {
     return ('geolocation' in navigator);
-  }
-
-  handleGPSEnableClick(event) {
-    this.setState({ isGPSEnabled: true });
-    this.watchId = navigator.geolocation.watchPosition(
-      this.handleGetCurrentPositionSuccess,
-      this.handleGetCurrentPositionFailure,
-      this.geolocationOptions);
-  }
-
-  handleGPSDisableClick(event) {
-    this.setState({ isGPSEnabled: false });
-    navigator.geolocation.clearWatch(this.watchId);
   }
 
   render() {
@@ -128,14 +145,32 @@ class App extends React.Component {
         </Section>
 
         <Section>
-          <Button
-            text="Enable"
-            onClick={this.handleGPSEnableClick}
-            disabled={this.state.isGPSEnabled} />
-          <Button
-            text="Pause"
-            onClick={this.handleGPSDisableClick}
-            disabled={!this.state.isGPSEnabled} />
+          {this.state.isGPSEnabled ? (
+            <React.Fragment>
+              <Button
+                text="Pause"
+                onClick={this.handleGPSDisableClick}
+                disabled={!this.state.isGPSEnabled} />
+              <MdGpsFixed />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {this.state.isPositionFetching ? (
+                <React.Fragment>
+                  <span>Connecting..</span>
+                  <ReactLoading type="spin" width={20} />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Button
+                    text="Enable"
+                    onClick={this.handleGPSEnableClick}
+                    disabled={this.state.isPositionFetching} />
+                  <MdGpsOff />
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          )}
         </Section>
 
       </Page>
