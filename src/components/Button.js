@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 function Button(props) {
   return (
     <button
+      className="button"
       onClick={props.onClick}
       disabled={props.disabled}>{props.text}</button>
   );

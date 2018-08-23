@@ -10,11 +10,11 @@ function StatusIcon(props) {
 
   let icon;
   if (isConnecting) {
-    icon = <ReactLoading type="spin" width={20} />;
+    icon = <ReactLoading className="icon" type="spin" width={24} height={24} />;
   } else if (isConnected) {
-    icon = <MdGpsFixed />;
+    icon = <MdGpsFixed size={24} />;
   } else {
-    icon = <MdGpsOff />;
+    icon = <MdGpsOff size={24} />;
   }
   return (
     icon

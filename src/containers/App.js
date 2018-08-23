@@ -107,6 +107,17 @@ class App extends React.Component {
       <Page>
         <PageHeading text="Marine GPS" />
 
+        <div className="connection">
+          <StatusIcon
+            isConnecting={isPositionFetching}
+            isConnected={isGPSEnabled} />
+          <ConnectButton
+            isConnecting={isPositionFetching}
+            isConnected={isGPSEnabled}
+            onConnectClick={this.handleGPSEnableClick}
+            onDisconnectClick={this.handleGPSDisableClick} />
+        </div>
+
         <Section>
           <SectionHeading text="GPS Heading" />
           <GPSHeading
@@ -140,17 +151,6 @@ class App extends React.Component {
           <SectionHeading text="GPS Timestamp" />
           <GPSTimestamp
             timestamp={timestamp} />
-        </Section>
-
-        <Section>
-          <ConnectButton
-            isConnecting={isPositionFetching}
-            isConnected={isGPSEnabled}
-            onConnectClick={this.handleGPSEnableClick}
-            onDisconnectClick={this.handleGPSDisableClick} />
-          <StatusIcon 
-            isConnecting={isPositionFetching}
-            isConnected={isGPSEnabled} />
         </Section>
       </Page>
     );
