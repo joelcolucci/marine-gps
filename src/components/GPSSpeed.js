@@ -5,9 +5,10 @@ function GPSSpeed(props) {
   let speedInMetersSecond = props.speed;
   let speedInKnots = speedInMetersSecond * 1.943842816446084;
 
+  let speedInKnotsString = speedInKnots.toFixed(1);
   let speedString;
   if (props.speed) {
-    speedString = `${speedInKnots} Knots`;
+    speedString = `${speedInKnotsString} Knots`;
   } else {
     speedString = `\u2014 Knots`;
   }
