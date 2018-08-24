@@ -33,7 +33,7 @@ class App extends React.Component {
 
     this.geolocationOptions = {
       enableHighAccuracy: true,
-      maximumAge: 0,
+      maximumAge: 1000,
       timeout: 27000
     };
     this.watchId = null;
